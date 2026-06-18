@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Journey ❤️ Final Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f0a1e;
+            --accent-pink: #ff6b9a;
+            --accent-purple: #c8a2ff;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-dark);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        /* --- Background --- */
+        .bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #1a0b2e 0%, #0f0a1e 100%);
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            color: var(--accent-pink);
+            opacity: 0.15;
+            animation: floatUp var(--duration) linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.15; }
+            90% { opacity: 0.15; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- Main Content --- */
+        .page-container {
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Header Card --- */
+        .header-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .header-card h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            color: var(--accent-pink);
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 107, 154, 0.4);
+        }
+
+        .header-card p {
+            font-size: 1.1rem;
+            color: var(--accent-purple);
+            opacity: 0.9;
+            min-height: 1.5em;
+        }
+
+        /* --- Timeline --- */
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .timeline-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            transform: translateY(20px);
+            backdrop-filter: blur(10px);
+        }
+
+        .timeline-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-pink);
+            box-shadow: 0 10px 30px rgba(255, 107, 154, 0.2);
+        }
+
+        .timeline-card .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .timeline-card h3 {
+            font-size: 1rem;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* --- Message Box --- */
+        .message-box {
+            background: linear-gradient(135deg, rgba(255, 107, 154, 0.05) 0%, rgba(200, 162, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 107, 154, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .message-box p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #eee;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .mini-heart {
+            position: absolute;
+            color: var(--accent-pink);
+            opacity: 0.3;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.3); opacity: 0.6; }
+        }
+
+        /* --- Action Button --- */
+        .action-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .surprise-btn {
+            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(255, 107, 154, 0.3);
+            animation: btnPulse 2s infinite;
+        }
+
+        @keyframes btnPulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 154, 0.4); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 107, 154, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 154, 0); }
+        }
+
+        .surprise-btn:hover {
+            transform: scale(1.08) translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 107, 154, 0.5);
+        }
+
+        .surprise-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 1024px) {
+            .page-container { max-width: 800px; padding: 20px; }
+        }
+
+        @media (max-width: 768px) {
+            .header-card h1 { font-size: 2.5rem; }
+            .header-card { padding: 30px 20px; }
+            .message-box { padding: 30px 20px; }
+            .timeline { grid-template-columns: 1fr 1fr; gap: 15px; }
+            .surprise-btn { padding: 15px 30px; font-size: 1.1rem; }
+        }
+
+        @media (max-width: 480px) {
+            .header-card h1 { font-size: 2rem; }
+            .timeline { grid-template-columns: 1fr; gap: 10px; }
+            .message-box p { font-size: 1rem; }
+        }
+    </style>
+    <link href="music-system.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="bg-canvas"></div>
+    <div class="floating-elements" id="floatingElements"></div>
+
+    <div class="page-container">
+        <!-- Header Section -->
+        <div class="header-card">
+            <h1>You completed our little journey ❤️</h1>
+            <p id="subtitleText"></p>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="timeline" id="timeline">
+            <div class="timeline-card" style="transition-delay: 0.1s;">
+                <span class="icon">✨</span>
+                <h3>First Talk</h3>
+            </div>
+            <div class="timeline-card" style="transition-delay: 0.3s;">
+                <span class="icon">❤️</span>
+                <h3>First Comfort</h3>
+            </div>
+            <div class="timeline-card" style="transition-delay: 0.5s;">
+                <span class="icon">🌙</span>
+                <h3>Late Night Talks</h3>
+            </div>
+            <div class="timeline-card" style="transition-delay: 0.7s;">
+                <span class="icon">♾️</span>
+                <h3>Forever Us</h3>
+            </div>
+        </div>
+
+        <!-- Message Box -->
+        <div class="message-box">
+            <div id="heartContainer"></div>
+            <p>
+                “You became my safest place, my comfort, my peace. Looking back at everything we've shared, I realize that every moment with you has been a blessing. No quiz score could ever measure how much you mean to me, because my love for you is infinite.”
+            </p>
+        </div>
+
+        <!-- Action Section -->
+        <div class="action-section">
+            <button class="surprise-btn" id="surpriseBtn">One Last Surprise ❤️</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Background Hearts ---
+        function createHearts() {
+            const container = document.getElementById('floatingElements');
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                const duration = 10 + Math.random() * 10;
+                heart.style.setProperty('--duration', duration + 's');
+                heart.style.fontSize = (10 + Math.random() * 20) + 'px';
+                heart.style.animationDelay = (Math.random() * 10) + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        // --- Mini Hearts in Message Box ---
+        function createMiniHearts() {
+            const container = document.getElementById('heartContainer');
+            for (let i = 0; i < 6; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'mini-heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 90 + '%';
+                heart.style.top = Math.random() * 90 + '%';
+                heart.style.animationDelay = (Math.random() * 2) + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        // --- Typewriter ---
+        function typeWriter(element, text, speed = 50) {
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // --- Init ---
+        document.addEventListener('DOMContentLoaded', () => {
+            createHearts();
+            createMiniHearts();
+            
+            // Subtitle typewriter
+            setTimeout(() => {
+                typeWriter(document.getElementById('subtitleText'), "No quiz score could ever measure how much you mean to me.");
+            }, 1000);
+
+            // Timeline reveal
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.timeline-card');
+                cards.forEach(card => card.classList.add('show'));
+            }, 500);
+
+            // Button Action
+            document.getElementById('surpriseBtn').onclick = () => {
+                document.body.style.transition = 'opacity 1s';
+                document.body.style.opacity = '0';
+                setTimeout(() => {
+                    window.location.href = 'surprise-page.html';
+                }, 1000);
+            };
+        });
+    </script>
+    <script src="music-system.js"></script>
+</body>
+</html>

@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Final Promise ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        /* ==========================================================================
+           RESET & GLOBALS
+           ========================================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #05000a;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ==========================================================================
+           LAYERED ANIMATED BACKGROUND
+           ========================================================================== */
+        .bg-gradient {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #05000a 0%, #200424 50%, #3d0a26 100%);
+            z-index: -10;
+        }
+        
+        .bg-aurora {
+            position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 107, 154, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 30% 70%, rgba(138, 43, 226, 0.1) 0%, transparent 50%);
+            z-index: -9;
+            animation: auroraMove 20s infinite alternate ease-in-out;
+        }
+        @keyframes auroraMove {
+            0% { transform: rotate(0deg) scale(1); }
+            100% { transform: rotate(30deg) scale(1.2); }
+        }
+
+        .bg-vignette {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            box-shadow: inset 0 0 150px rgba(0,0,0,0.9);
+            z-index: -8; pointer-events: none;
+        }
+
+        /* Floating Elements */
+        .floating-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -5; }
+        .particle { position: absolute; animation: floatUp linear infinite; opacity: 0; }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.6; }
+            100% { transform: translateY(-20vh) scale(1.2); opacity: 0; }
+        }
+
+        /* ==========================================================================
+           LAYOUT & CONTAINERS
+           ========================================================================== */
+        .container {
+            position: relative; z-index: 10;
+            max-width: 1200px; margin: 0 auto;
+            padding: 80px 20px;
+            display: flex; flex-direction: column; align-items: center; gap: 80px;
+        }
+
+        /* ==========================================================================
+           HERO SECTION
+           ========================================================================== */
+        .hero { text-align: center; margin-bottom: 40px; }
+        .hero-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(4rem, 10vw, 8rem);
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 107, 154, 0.8), 0 0 40px rgba(255, 107, 154, 0.4);
+            animation: pulseGlow 3s infinite alternate;
+            display: inline-block;
+        }
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 20px rgba(255,107,154,0.8), 0 0 40px rgba(255,107,154,0.4); transform: scale(1); }
+            100% { text-shadow: 0 0 40px rgba(255,107,154,1), 0 0 80px rgba(200,162,255,0.8); transform: scale(1.05); }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: #ffb3c6;
+            margin-top: 20px;
+            font-weight: 300;
+            min-height: 2em; /* For typewriter */
+        }
+        .typewriter::after {
+            content: '|'; animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* ==========================================================================
+           EMOTIONAL MESSAGE CARD
+           ========================================================================== */
+        .message-card {
+            background: rgba(30, 10, 40, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 107, 154, 0.3);
+            border-radius: 30px;
+            padding: 50px 40px;
+            max-width: 800px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,107,154,0.1);
+            animation: slowFloat 6s ease-in-out infinite alternate;
+            transition: transform 0.5s, box-shadow 0.5s;
+        }
+        .message-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7), inset 0 0 30px rgba(255,107,154,0.2);
+            border-color: rgba(255, 107, 154, 0.6);
+        }
+        @keyframes slowFloat {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-15px); }
+        }
+        .message-text {
+            font-size: 1.1rem; line-height: 1.8; color: #f8f0f5; font-weight: 300;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* ==========================================================================
+           RELATIONSHIP TIMER
+           ========================================================================== */
+        .timer-section {
+            position: relative;
+            background: rgba(30, 10, 40, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 107, 154, 0.3);
+            border-radius: 30px;
+            padding: 50px 40px;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,107,154,0.1);
+            animation: slowFloat 6s ease-in-out infinite alternate, fadeInReveal 1.5s ease-out forwards;
+            transition: transform 0.5s, box-shadow 0.5s, border-color 0.5s;
+            overflow: hidden;
+        }
+
+        @keyframes fadeInReveal {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .timer-section:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7), inset 0 0 40px rgba(255,107,154,0.3);
+            border-color: rgba(255, 107, 154, 0.6);
+        }
+
+        .timer-bg-effects {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            border-radius: 30px;
+        }
+
+        .timer-glow {
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 107, 154, 0.15), transparent 60%);
+            animation: rotateGlow 15s linear infinite;
+        }
+
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .timer-heading {
+            position: relative;
+            z-index: 1;
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 107, 154, 0.8);
+            margin-bottom: 10px;
+            animation: pulseTextGlow 3s infinite alternate;
+        }
+
+        @keyframes pulseTextGlow {
+            0% { text-shadow: 0 0 15px rgba(255,107,154,0.6); }
+            100% { text-shadow: 0 0 30px rgba(255,107,154,1), 0 0 50px rgba(200,162,255,0.8); }
+        }
+
+        .timer-subheading {
+            position: relative;
+            z-index: 1;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: #ffb3c6;
+            font-weight: 300;
+            margin-bottom: 40px;
+        }
+
+        .timer-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .timer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+        }
+
+        .timer-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 107, 154, 0.2);
+            border-radius: 15px;
+            padding: 20px 10px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            animation: gentleHeartbeat 4s infinite;
+        }
+
+        .timer-box:nth-child(2) { animation-delay: 1s; }
+        .timer-box:nth-child(3) { animation-delay: 2s; }
+        .timer-box:nth-child(4) { animation-delay: 3s; }
+
+        @keyframes gentleHeartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        .timer-box:hover {
+            background: rgba(255, 107, 154, 0.15);
+            border-color: rgba(255, 107, 154, 0.6);
+            transform: translateY(-5px) scale(1.05) !important;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5), 0 0 20px rgba(255, 107, 154, 0.4);
+        }
+
+        .timer-number {
+            display: block;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #ffb3c6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+            text-shadow: 0 0 15px rgba(255, 107, 154, 0.4);
+        }
+
+        .timer-label {
+            display: block;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            color: #c8a2ff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        .timer-particle {
+            position: absolute;
+            opacity: 0;
+            animation: floatUpParticle linear infinite;
+        }
+
+        @keyframes floatUpParticle {
+            0% { transform: translateY(100px) scale(0.5) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(-100px) scale(1.2) rotate(360deg); opacity: 0; }
+        }
+
+        /* ==========================================================================
+           PHOTO MEMORY SHOWCASE
+           ========================================================================== */
+        .gallery-section { width: 100%; text-align: center; }
+        .section-title {
+            font-family: 'Great Vibes', cursive; font-size: 3rem; color: #c8a2ff;
+            margin-bottom: 40px; text-shadow: 0 0 15px rgba(200,162,255,0.5);
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px; padding: 20px;
+        }
+        .polaroid {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px 15px 30px 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer; position: relative;
+        }
+        .polaroid:nth-child(even) { transform: rotate(3deg); }
+        .polaroid:nth-child(odd) { transform: rotate(-3deg); }
+        
+        .polaroid:hover {
+            transform: scale(1.1) rotate(0deg) !important;
+            z-index: 10;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 30px rgba(255,107,154,0.4);
+            border-color: rgba(255,107,154,0.5);
+        }
+        .polaroid-img-wrapper {
+            width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 5px;
+        }
+        .polaroid img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        .polaroid:hover img { transform: scale(1.1); }
+
+        /* ==========================================================================
+           OUR SONG SECTION
+           ========================================================================== */
+        .song-section {
+            background: rgba(10, 5, 20, 0.6);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(200, 162, 255, 0.3);
+            border-radius: 40px; padding: 40px;
+            display: flex; flex-direction: column; align-items: center; gap: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 40px rgba(138,43,226,0.2);
+            position: relative; overflow: hidden; width: 100%; max-width: 500px;
+        }
+        .song-disc-wrapper { position: relative; }
+        .song-disc {
+            width: 160px; height: 160px; border-radius: 50%;
+            background: conic-gradient(#111, #333, #111, #333, #111);
+            border: 4px solid #c8a2ff;
+            display: flex; align-items: center; justify-content: center;
+            animation: spin 4s linear infinite; animation-play-state: paused;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        .song-disc::after {
+            content: ''; width: 40px; height: 40px; border-radius: 50%;
+            background: linear-gradient(135deg, #c8a2ff, #ff6b9a);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .song-disc.playing { animation-play-state: running; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .song-info { text-align: center; }
+        .song-title { font-size: 2rem; color: #fff; font-weight: 600; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        .song-subtitle { color: #ffb3c6; font-size: 1rem; }
+
+        .song-controls { display: flex; align-items: center; gap: 30px; }
+        .play-btn {
+            width: 70px; height: 70px; border-radius: 50%; border: none; cursor: pointer;
+            background: linear-gradient(135deg, #ff6b9a, #c8a2ff); color: white;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 5px 20px rgba(255,107,154,0.5);
+            transition: all 0.3s ease;
+        }
+        .play-btn:hover { transform: scale(1.1); box-shadow: 0 10px 30px rgba(255,107,154,0.8); }
+
+        .equalizer { display: flex; gap: 5px; height: 40px; align-items: center; }
+        .eq-bar {
+            width: 6px; background: #c8a2ff; border-radius: 3px;
+            animation: eqDance 1s infinite alternate; animation-play-state: paused;
+        }
+        .equalizer.playing .eq-bar { animation-play-state: running; }
+        @keyframes eqDance { 0% { height: 10px; } 100% { height: 40px; } }
+
+        /* ==========================================================================
+           FINAL PROMISE & BUTTON
+           ========================================================================== */
+        .promise-section { text-align: center; margin-top: 40px; }
+        .promise-text {
+            font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 600;
+            background: linear-gradient(135deg, #fff, #ffb3c6);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255,107,154,0.4);
+            animation: heartbeat 2s infinite; margin-bottom: 60px;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            10%, 30% { transform: scale(1.05); }
+            20% { transform: scale(1.1); }
+        }
+
+        .replay-btn {
+            padding: 20px 50px; font-size: 1.5rem; font-weight: 600; font-family: 'Poppins', sans-serif;
+            color: #fff; background: rgba(255, 107, 154, 0.1);
+            border: 2px solid #ff6b9a; border-radius: 50px; cursor: pointer;
+            position: relative; overflow: hidden; backdrop-filter: blur(10px);
+            transition: all 0.4s ease; box-shadow: 0 10px 30px rgba(255,107,154,0.2);
+        }
+        .replay-btn::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s; z-index: 1;
+        }
+        .replay-btn:hover {
+            transform: translateY(-5px); background: #ff6b9a;
+            box-shadow: 0 15px 40px rgba(255,107,154,0.6);
+        }
+        .replay-btn:hover::before { left: 100%; }
+
+        /* Global Music Player (Overrides to hide since we have the main card) */
+        #global-music-player { display: none !important; }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .container { padding: 0 10px; padding-bottom: 50px; }
+            .song-section { padding: 25px 15px; }
+            .song-disc { width: 120px; height: 120px; }
+            .song-title { font-size: 1.5rem; }
+            .play-btn { width: 60px; height: 60px; }
+            .replay-btn { padding: 15px 30px; font-size: 1.2rem; }
+            .gallery-grid { gap: 20px; padding: 10px; }
+        }
+
+        @media (max-width: 480px) {
+            .timer-grid { grid-template-columns: 1fr; gap: 10px; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 2.2rem; margin-bottom: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Layers -->
+    <div class="bg-gradient"></div>
+    <div class="bg-aurora"></div>
+    <div class="bg-vignette"></div>
+    <div class="floating-layer" id="floatingLayer"></div>
+
+    <div class="container">
+        
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1 class="hero-title">I Love You ❤️</h1>
+            <h2 class="hero-subtitle typewriter" id="typewriterText"></h2>
+        </div>
+
+        <!-- Relationship Timer -->
+        <div class="timer-section" id="relationshipTimer">
+            <div class="timer-bg-effects">
+                <div class="timer-glow"></div>
+                <div class="timer-particles" id="timerParticles"></div>
+            </div>
+            
+            <h2 class="timer-heading">Since Our First Hello ❤️</h2>
+            <p class="timer-subheading">29 December 2024 — the day everything changed ✨</p>
+            
+            <div class="timer-grid">
+                <div class="timer-box">
+                    <span class="timer-number" id="t-days">0</span>
+                    <span class="timer-label">Days</span>
+                </div>
+                <div class="timer-box">
+                    <span class="timer-number" id="t-hours">00</span>
+                    <span class="timer-label">Hours</span>
+                </div>
+                <div class="timer-box">
+                    <span class="timer-number" id="t-minutes">00</span>
+                    <span class="timer-label">Minutes</span>
+                </div>
+                <div class="timer-box">
+                    <span class="timer-number" id="t-seconds">00</span>
+                    <span class="timer-label">Seconds</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emotional Message -->
+        <div class="message-card">
+            <p class="message-text">
+                From the moment we met, you changed my world in the most beautiful way. Every laugh, every late-night conversation, and every quiet moment we've shared is a treasure I hold close to my heart. You are my safe space, my greatest adventure, and my endless source of joy. I promise to stand by you, to cherish you, and to love you more with every passing day. Thank you for being exactly who you are, and for letting me be yours.
+            </p>
+        </div>
+
+        <!-- Photo Gallery -->
+        <div class="gallery-section">
+            <h2 class="section-title">Our Beautiful Memories ✨</h2>
+            <div class="gallery-grid">
+                
+                <div class="polaroid"><div class="polaroid-img-wrapper"><img src="images/image2.png" alt="Memory 2" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjNlbSIgZmlsbD0iI2FhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1hZ2UgMjwvdGV4dD48L3N2Zz4='"></div></div>
+                <div class="polaroid"><div class="polaroid-img-wrapper"><img src="images/image3.png" alt="Memory 3" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjNlbSIgZmlsbD0iI2FhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1hZ2UgMzwvdGV4dD48L3N2Zz4='"></div></div>
+                <div class="polaroid"><div class="polaroid-img-wrapper"><img src="images/image4.png" alt="Memory 4" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjNlbSIgZmlsbD0iI2FhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1hZ2UgNDwvdGV4dD48L3N2Zz4='"></div></div>
+                <div class="polaroid"><div class="polaroid-img-wrapper"><img src="images/image5.png" alt="Memory 5" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjNlbSIgZmlsbD0iI2FhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1hZ2UgNTwvdGV4dD48L3N2Zz4='"></div></div>
+                <div class="polaroid"><div class="polaroid-img-wrapper"><img src="images/image6.png" alt="Memory 6" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjNlbSIgZmlsbD0iI2FhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1hZ2UgNjwvdGV4dD48L3N2Zz4='"></div></div>
+                <div class="polaroid"><div class="polaroid-img-wrapper"><img src="images/6.jpeg" alt="Memory 7" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjNlbSIgZmlsbD0iI2FhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1hZ2UgNzwvdGV4dD48L3N2Zz4='"></div></div>
+                <div class="polaroid"><div class="polaroid-img-wrapper"><img src="images/7.jpeg" alt="Memory 8" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjNlbSIgZmlsbD0iI2FhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1hZ2UgODwvdGV4dD48L3N2Zz4='"></div></div>
+                <div class="polaroid"><div class="polaroid-img-wrapper"><img src="images/image9.png" alt="Memory 9" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjNlbSIgZmlsbD0iI2FhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1hZ2UgOTwvdGV4dD48L3N2Zz4='"></div></div>
+                
+            </div>
+        </div>
+
+        <!-- Our Song Section -->
+        <div class="song-section">
+            <h2 class="section-title" style="margin-bottom: 0;">Our Song ❤️</h2>
+            <div class="song-disc-wrapper">
+                <div class="song-disc" id="mainDisc"></div>
+            </div>
+            <div class="song-info">
+                <p class="song-subtitle">The soundtrack of us...</p>
+            </div>
+            <div class="song-controls">
+                <div class="equalizer" id="mainEq">
+                    <div class="eq-bar" style="animation-duration: 0.8s"></div>
+                    <div class="eq-bar" style="animation-duration: 1.1s"></div>
+                    <div class="eq-bar" style="animation-duration: 0.9s"></div>
+                </div>
+                <button class="play-btn" id="mainPlayBtn">
+                    <svg id="mainPlayIcon" viewBox="0 0 24 24" width="36" height="36" fill="currentColor">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </button>
+                <div class="equalizer" id="mainEq2">
+                    <div class="eq-bar" style="animation-duration: 1.2s"></div>
+                    <div class="eq-bar" style="animation-duration: 0.7s"></div>
+                    <div class="eq-bar" style="animation-duration: 1.0s"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Promise & Replay -->
+        <div class="promise-section">
+            <h2 class="promise-text">Forever isn't enough with you ♾️</h2>
+            <button class="replay-btn" onclick="window.location.href='index.html'">Replay Our Story ❤️</button>
+        </div>
+
+    </div>
+
+    <!-- Inject Global Music System Scripts -->
+    <link href="music-system.css" rel="stylesheet">
+    <script src="music-system.js"></script>
+
+    <script>
+        // Floating Background Particles
+        function initParticles() {
+            const layer = document.getElementById('floatingLayer');
+            const icons = ['❤️', '✨', '💖', '⭐'];
+            for(let i=0; i<30; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.innerText = icons[Math.floor(Math.random() * icons.length)];
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.fontSize = (10 + Math.random() * 20) + 'px';
+                p.style.animationDuration = (10 + Math.random() * 20) + 's';
+                p.style.animationDelay = Math.random() * 10 + 's';
+                layer.appendChild(p);
+            }
+        }
+
+        // Typewriter Effect
+        const text = "No matter where life takes us... you'll always be my favorite place.";
+        const typeEl = document.getElementById('typewriterText');
+        let typeIdx = 0;
+        function typeWriter() {
+            if (typeIdx < text.length) {
+                typeEl.innerHTML = text.substring(0, typeIdx + 1);
+                typeIdx++;
+                setTimeout(typeWriter, 50);
+            } else {
+                typeEl.classList.remove('typewriter');
+            }
+        }
+
+        // Confetti Burst on Load
+        function fireConfetti() {
+            var duration = 3000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999, colors: ['#ff6b9a', '#c8a2ff', '#ffffff'] };
+
+            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(interval);
+                var particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        // Sync Custom Music UI with Global Music System
+        function initMusicUI() {
+            const btn = document.getElementById('mainPlayBtn');
+            const icon = document.getElementById('mainPlayIcon');
+            const disc = document.getElementById('mainDisc');
+            const eq1 = document.getElementById('mainEq');
+            const eq2 = document.getElementById('mainEq2');
+
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if(window.GMP) window.GMP.toggle();
+            });
+
+            window.addEventListener('gmp-state-changed', (e) => {
+                const isPlaying = e.detail.isPlaying;
+                if(isPlaying) {
+                    icon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+                    disc.classList.add('playing');
+                    eq1.classList.add('playing');
+                    eq2.classList.add('playing');
+                } else {
+                    icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+                    disc.classList.remove('playing');
+                    eq1.classList.remove('playing');
+                    eq2.classList.remove('playing');
+                }
+            });
+
+            // Initial check
+            setTimeout(() => {
+                if(window.GMP && window.GMP.getState()) {
+                    window.dispatchEvent(new CustomEvent('gmp-state-changed', {detail: {isPlaying: true}}));
+                }
+            }, 200);
+        }
+
+        // Relationship Timer Logic
+        function initTimer() {
+            // 29 December 2024
+            const startDate = new Date('2024-12-29T00:00:00');
+            
+            const daysEl = document.getElementById('t-days');
+            const hoursEl = document.getElementById('t-hours');
+            const minsEl = document.getElementById('t-minutes');
+            const secsEl = document.getElementById('t-seconds');
+
+            function updateTimer() {
+                const now = new Date();
+                let diff = now - startDate;
+                
+                if (diff < 0) diff = 0;
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((diff / 1000 / 60) % 60);
+                const seconds = Math.floor((diff / 1000) % 60);
+
+                daysEl.innerText = days;
+                hoursEl.innerText = hours.toString().padStart(2, '0');
+                minsEl.innerText = minutes.toString().padStart(2, '0');
+                secsEl.innerText = seconds.toString().padStart(2, '0');
+            }
+
+            setInterval(updateTimer, 1000);
+            updateTimer();
+        }
+
+        // Timer Particles
+        function initTimerParticles() {
+            const container = document.getElementById('timerParticles');
+            const items = ['❤️', '✨', '💖', '⭐'];
+            for(let i=0; i<15; i++) {
+                const p = document.createElement('div');
+                p.className = 'timer-particle';
+                p.innerText = items[Math.floor(Math.random() * items.length)];
+                p.style.left = Math.random() * 100 + '%';
+                p.style.fontSize = (10 + Math.random() * 15) + 'px';
+                p.style.animationDuration = (5 + Math.random() * 10) + 's';
+                p.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(p);
+            }
+        }
+
+        // Init all
+        window.addEventListener('DOMContentLoaded', () => {
+            initParticles();
+            setTimeout(typeWriter, 1500); // Wait for title pulse
+            if(typeof confetti !== 'undefined') fireConfetti();
+            initMusicUI();
+            initTimer();
+            initTimerParticles();
+        });
+    </script>
+</body>
+</html>

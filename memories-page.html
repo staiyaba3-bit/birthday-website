@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story 💫</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #000;
+            color: #fff;
+        }
+
+        /* Background */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #000000 0%, #2a0845 50%, #6b1b47 100%);
+            z-index: -10;
+        }
+
+        .glow-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -5;
+            animation: glowPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+
+            0%,
+            100% {
+                background: radial-gradient(circle at 20% 50%, rgba(255, 107, 154, 0.1) 0%, transparent 50%);
+            }
+
+            50% {
+                background: radial-gradient(circle at 80% 80%, rgba(200, 162, 255, 0.1) 0%, transparent 50%);
+            }
+        }
+
+        /* Floating Elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart,
+        .sparkle {
+            position: absolute;
+            opacity: 0.15;
+            animation: float linear infinite;
+        }
+
+        .heart {
+            font-size: 2rem;
+        }
+
+        .sparkle {
+            font-size: 0.75rem;
+            opacity: 0.2;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.15;
+            }
+
+            90% {
+                opacity: 0.15;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(var(--tx));
+                opacity: 0;
+            }
+        }
+
+        /* Container */
+        .page-container {
+            position: relative;
+            min-height: 100vh;
+            padding: 60px 20px;
+        }
+
+        /* Navigation */
+        .nav-top {
+            position: fixed;
+            top: 2rem;
+            z-index: 50;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 107, 154, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 107, 154, 0.3);
+            color: #fff5f8;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.875rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn {
+            left: 2rem;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 107, 154, 0.4);
+            transform: scale(1.1);
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem 0;
+            animation: fadeIn 1s ease-in forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .header h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            color: #ff6b9a;
+            text-shadow: 0 0 20px rgba(255, 107, 154, 0.5);
+            margin-bottom: 1rem;
+            animation: glow-animation 3s ease-in-out infinite;
+        }
+
+        @keyframes glow-animation {
+
+            0%,
+            100% {
+                text-shadow: 0 0 20px rgba(255, 107, 154, 0.5);
+            }
+
+            50% {
+                text-shadow: 0 0 30px rgba(255, 107, 154, 0.8);
+            }
+        }
+
+        .header p {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            color: #c8a2ff;
+            text-shadow: 0 0 10px rgba(200, 162, 255, 0.4);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Timeline Container */
+        .timeline-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        /* Timeline line */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, transparent, #ff6b9a, #c8a2ff, transparent);
+            transform: translateX(-50%);
+            box-shadow: 0 0 15px rgba(255, 107, 154, 0.5);
+        }
+
+        /* Progress indicator */
+        .progress-dot {
+            position: absolute;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            background: #ff6b9a;
+            border: 3px solid #c8a2ff;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 15px rgba(255, 107, 154, 0.8);
+            z-index: 10;
+        }
+
+        /* Memory Item */
+        .memory-item {
+            margin-bottom: 6rem;
+            opacity: 0;
+            animation: slideIn 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            position: relative;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Memory Card */
+        .memory-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 107, 154, 0.2);
+            border-radius: 24px;
+            padding: 1.2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: floatingCard 4s ease-in-out infinite;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        @keyframes floatingCard {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .memory-card:hover {
+            transform: translateY(-20px) scale(1.03);
+            border-color: rgba(255, 107, 154, 0.8);
+            box-shadow: 0 0 30px rgba(255, 107, 154, 0.4), 0 0 60px rgba(200, 162, 255, 0.2);
+            z-index: 20;
+        }
+
+        /* Memory Image */
+        .memory-image-container {
+            width: 100%;
+            height: 300px;
+            border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 1.2rem;
+            background: #1a1a1a;
+        }
+
+        .memory-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .memory-card:hover .memory-image-container img {
+            transform: scale(1.1);
+        }
+
+        .memory-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 40%, rgba(255, 107, 154, 0.2));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .memory-card:hover .memory-overlay {
+            opacity: 1;
+        }
+
+        /* Memory Caption */
+        .memory-caption {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.8rem;
+            color: #ff6b9a;
+            text-align: center;
+            margin-top: 5px;
+            text-shadow: 0 0 10px rgba(255, 107, 154, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .memory-card:hover .memory-caption {
+            color: #fff;
+            text-shadow: 0 0 15px rgba(255, 107, 154, 0.8);
+        }
+
+        /* Side Logic */
+        .memory-item.left {
+            margin-left: 0;
+            margin-right: auto;
+            width: 45%;
+        }
+
+        .memory-item.right {
+            margin-left: auto;
+            margin-right: 0;
+            width: 45%;
+        }
+
+        /* Midway Section */
+        .midway-section {
+            text-align: center;
+            margin: 6rem 0;
+            padding: 3rem;
+            background: rgba(255, 107, 154, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(200, 162, 255, 0.3);
+            opacity: 0;
+            animation: midwayAppear 1s ease-in forwards;
+        }
+
+        @keyframes midwayAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .midway-section h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: #ff6b9a;
+            text-shadow: 0 0 15px rgba(255, 107, 154, 0.5);
+            line-height: 1.8;
+        }
+
+        /* Next Button */
+        .next-button {
+            display: block;
+            margin: 5rem auto;
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #c8a2ff 0%, #ff6b9a 100%);
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(200, 162, 255, 0.5);
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            opacity: 0;
+            animation: buttonAppear 1s ease-in forwards;
+        }
+
+        @keyframes buttonAppear {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .next-button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 40px rgba(200, 162, 255, 0.8);
+        }
+
+        .next-button:active {
+            transform: scale(0.95);
+        }
+
+        /* Fade out */
+        .fade-out {
+            animation: fadeOut 1s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .memory-item.left { width: 48%; }
+            .memory-item.right { width: 48%; }
+            .header h1 { font-size: 3rem; }
+            .memory-caption { font-size: 1.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            .timeline-line {
+                left: 20px;
+            }
+
+            .memory-item {
+                width: 100% !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                padding-left: 60px;
+                text-align: left !important;
+            }
+
+            .memory-item.left .memory-card,
+            .memory-item.right .memory-card {
+                animation-name: slideIn !important;
+            }
+
+            .progress-dot {
+                left: 20px;
+            }
+            
+            .header h1 { font-size: 2.5rem; }
+            .header p { font-size: 1rem; }
+            .memory-caption { font-size: 1.3rem; }
+            .midway-section { padding: 2rem; }
+            .midway-section h2 { font-size: 1.5rem; }
+            .next-button { padding: 0.8rem 2rem; font-size: 1rem; margin: 3rem auto; }
+        }
+    </style>
+    <link href="music-system.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Background -->
+    <div class="background"></div>
+    <div class="glow-bg"></div>
+
+    <!-- Floating Elements -->
+    <div class="floating-elements" id="floatingContainer"></div>
+
+    <!-- Navigation -->
+    <button class="back-btn" onclick="window.location.href='letter-page.html'">← Back</button>
+
+    <!-- Page Container -->
+    <div class="page-container">
+        <!-- Header -->
+        <div class="header">
+            <h1 id="headerTitle">Our Story… 💫</h1>
+            <p id="headerSubtitle"></p>
+        </div>
+
+        <!-- Timeline -->
+        <div class="timeline-container">
+            <!-- Timeline Line -->
+            <div class="timeline-line"></div>
+            <div class="progress-dot" id="progressDot"></div>
+
+            <!-- Memories will be inserted here -->
+            <div id="memoriesContainer"></div>
+
+            <!-- Midway Section -->
+            <div class="midway-section" id="midwaySection">
+                <h2>And in all these moments…<br>I found my forever in you ❤️</h2>
+            </div>
+
+            <!-- Next Button -->
+            <button class="next-button" id="nextButton">One More Thing… 🫶</button>
+        </div>
+    </div>
+
+    <script>
+        const memories = [
+            {
+                image: 'images/image1.png',
+                caption: 'The moment everything started ❤️'
+            },
+            {
+                image: 'images/image2.png',
+                caption: 'When I realised you are my safe place ✨'
+            },
+            {
+                image: 'images/image3.png',
+                caption: 'The beginning of our forever 😍'
+            },
+            {
+                image: 'images/image4.png',
+                caption: 'Making every second count 🫶'
+            },
+            {
+                image: 'images/image5.png',
+                caption: 'My safe place, my home 💖'
+            },
+            {
+                image: 'images/image6.png',
+                caption: 'Growing old together is the plan 🥂'
+            },
+            {
+                image: 'images/6.jpeg',
+                caption: 'Every day is brighter with you ☀️'
+            },
+            {
+                image: 'images/7.jpeg',
+                caption: 'My favorite adventure 🌍'
+            },
+            {
+                image: 'images/image9.png',
+                caption: 'Endless love 💘'
+            }
+        ];
+
+        // Typewriter effect
+        function typeWriter(element, text, speed = 50) {
+            return new Promise((resolve) => {
+                let index = 0;
+                element.innerHTML = '';
+                function type() {
+                    if (index < text.length) {
+                        element.innerHTML += text.charAt(index);
+                        index++;
+                        setTimeout(type, speed);
+                    } else {
+                        resolve();
+                    }
+                }
+                type();
+            });
+        }
+
+        // Create floating elements
+        function createFloatingElements() {
+            const container = document.getElementById('floatingContainer');
+            for (let i = 0; i < 10; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = (Math.random() * 100) + '%';
+                const duration = 8 + Math.random() * 4;
+                const delay = Math.random() * 5;
+                const tx = (Math.random() - 0.5) * 100;
+                heart.style.animation = `float ${duration}s linear ${delay}s infinite`;
+                heart.style.setProperty('--tx', tx + 'px');
+                container.appendChild(heart);
+            }
+
+            for (let i = 0; i < 6; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.innerHTML = '✨';
+                sparkle.style.left = (Math.random() * 100) + '%';
+                const duration = 12 + Math.random() * 4;
+                const delay = i * 0.8;
+                const tx = (Math.random() - 0.5) * 100;
+                sparkle.style.animation = `float ${duration}s linear ${delay}s infinite`;
+                sparkle.style.setProperty('--tx', tx + 'px');
+                container.appendChild(sparkle);
+            }
+        }
+
+        // Initialize header
+        async function initHeader() {
+            await typeWriter(document.getElementById('headerTitle'), 'Our Story… 💫', 50);
+            await new Promise(r => setTimeout(r, 500));
+            await typeWriter(document.getElementById('headerSubtitle'), 'Not just moments… but feelings we lived.', 40);
+        }
+
+        // Create memory cards
+        function createMemories() {
+            const container = document.getElementById('memoriesContainer');
+
+            memories.forEach((memory, index) => {
+                const side = index % 2 === 0 ? 'left' : 'right';
+                const delay = index * 0.2;
+
+                const memoryItem = document.createElement('div');
+                memoryItem.className = `memory-item ${side}`;
+                memoryItem.style.animationDelay = `${delay}s`;
+
+                memoryItem.innerHTML = `
+                    <div class="memory-card">
+                        <div class="memory-image-container">
+                            <img src="${memory.image}" alt="Memory ${index + 1}" loading="lazy">
+                            <div class="memory-overlay"></div>
+                        </div>
+                        <div class="memory-caption">${memory.caption}</div>
+                    </div>
+                `;
+
+                container.appendChild(memoryItem);
+            });
+        }
+
+        // Scroll animation observer
+        function observeElements() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                    }
+                });
+            }, {
+                threshold: 0.3
+            });
+
+            document.querySelectorAll('.memory-item').forEach(el => {
+                observer.observe(el);
+            });
+
+            document.querySelectorAll('.midway-section, .next-button').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+
+
+        // Next button
+        const nextButton = document.getElementById('nextButton');
+        nextButton.addEventListener('click', () => {
+            document.querySelector('.page-container').classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = 'game-page.html';
+            }, 1000);
+        });
+
+        // Update progress dot on scroll
+        window.addEventListener('scroll', () => {
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            const progressDot = document.getElementById('progressDot');
+            const timelineHeight = document.querySelector('.timeline-container').offsetHeight;
+            progressDot.style.top = (scrollPercent / 100 * timelineHeight) + 'px';
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createFloatingElements();
+            initHeader();
+            createMemories();
+            setTimeout(observeElements, 100);
+        });
+    </script>
+    <script src="music-system.js"></script>
+</body>
+
+</html>

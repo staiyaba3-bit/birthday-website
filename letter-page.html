@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Love Letter 💌</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .page-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Background */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #000000 0%, #2a0845 50%, #6b1b47 100%);
+            z-index: -10;
+        }
+
+        .glow-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -5;
+            animation: glowPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% {
+                background: radial-gradient(circle at 20% 50%, rgba(255, 107, 154, 0.1) 0%, transparent 50%);
+            }
+            50% {
+                background: radial-gradient(circle at 80% 80%, rgba(200, 162, 255, 0.1) 0%, transparent 50%);
+            }
+        }
+
+        /* Floating Elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.15;
+            animation: float linear infinite;
+        }
+
+        .sparkle {
+            position: absolute;
+            font-size: 0.75rem;
+            opacity: 0.2;
+            animation: sparkleFloat linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 0.15; }
+            90% { opacity: 0.15; }
+            100% { transform: translateY(-100vh) translateX(var(--tx, 0px)); opacity: 0; }
+        }
+
+        @keyframes sparkleFloat {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 0.2; }
+            90% { opacity: 0.2; }
+            100% { transform: translateY(-100vh) translateX(var(--tx, 0px)); opacity: 0; }
+        }
+
+        /* Content */
+        .content {
+            position: relative;
+            z-index: 10;
+            animation: fadeInPage 1s ease-in forwards;
+        }
+
+        @keyframes fadeInPage {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Text Section */
+        .text-section {
+            text-align: center;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: textAppear 1s ease-in forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes textAppear {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .intro-text {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: #c8a2ff;
+            text-shadow: 0 0 10px rgba(200, 162, 255, 0.4);
+            margin: 0.8rem 0;
+        }
+
+        /* Envelope Container */
+        .envelope-container {
+            position: relative;
+            width: 280px;
+            height: 180px;
+            margin: 2rem auto;
+            perspective: 1000px;
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+        }
+
+        /* Envelope body */
+        .envelope-body {
+            position: absolute;
+            width: 280px;
+            height: 180px;
+            background: linear-gradient(135deg, #fff5f8 0%, #ffe6f0 100%);
+            border: 2px solid #ffb3d9;
+            border-radius: 8px;
+            box-shadow: 0 15px 40px rgba(255, 107, 154, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            z-index: 1;
+        }
+
+        /* Envelope back flap */
+        .envelope-back-flap {
+            position: absolute;
+            width: 280px;
+            height: 90px;
+            background: linear-gradient(135deg, #ffccdd 0%, #ffb3d9 100%);
+            clip-path: polygon(0 100%, 50% 50%, 100% 100%);
+            top: 0;
+            z-index: 1;
+            border-radius: 8px 8px 0 0;
+        }
+
+        /* Envelope front flap */
+        .envelope-front-flap {
+            position: absolute;
+            width: 280px;
+            height: 90px;
+            background: linear-gradient(135deg, #ff9cc5 0%, #ff8ab5 100%);
+            clip-path: polygon(0 0, 50% 50%, 100% 0);
+            top: 90px;
+            z-index: 3;
+            transform-origin: top;
+            transform: rotateX(0deg);
+            transition: transform 0.8s ease;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .envelope-front-flap.open {
+            transform: rotateX(-180deg);
+        }
+
+        /* Envelope glow */
+        .envelope-glow {
+            position: absolute;
+            inset: -20px;
+            background: radial-gradient(circle, rgba(255, 107, 154, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: glowFloat 3s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes glowFloat {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.5; }
+        }
+
+        /* Floating heart near envelope */
+        .envelope-heart {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            animation: heartBeat 1.5s ease-in-out infinite;
+            z-index: 5;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            25% { transform: translateX(-50%) scale(1.2); }
+            50% { transform: translateX(-50%) scale(1); }
+        }
+
+        /* Button */
+        .open-button {
+            margin-top: 4rem;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #ff6b9a 0%, #c8a2ff 100%);
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(255, 107, 154, 0.5);
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            opacity: 0;
+            animation: buttonAppear 0.5s ease-in forwards;
+            animation-delay: 2s;
+        }
+
+        @keyframes buttonAppear {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .open-button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 40px rgba(255, 107, 154, 0.8);
+        }
+
+        .open-button:active {
+            transform: scale(0.95);
+        }
+
+        .open-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Letter */
+        .letter-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 600px;
+            max-height: 85vh;
+            background: linear-gradient(135deg, #fff5f8 0%, #ffe6f0 100%);
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(255, 107, 154, 0.4);
+            z-index: 30;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+            overflow-y: auto;
+            pointer-events: none;
+        }
+
+        .letter-container.show {
+            animation: letterAppear 0.8s ease-out forwards;
+            pointer-events: auto;
+        }
+
+        @keyframes letterAppear {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .letter-content {
+            font-size: 1.1rem;
+            color: #3d3d3d;
+            line-height: 1.8;
+            font-weight: 400;
+        }
+
+        .letter-line {
+            margin-bottom: 1.2rem;
+            opacity: 0;
+        }
+
+        .letter-line.show {
+            animation: letterLineShow 0.8s ease-in forwards;
+        }
+
+        @keyframes letterLineShow {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .signature {
+            margin-top: 2rem;
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.5rem;
+            color: #ff6b9a;
+            font-weight: 300;
+        }
+
+        /* Memory photo placeholder */
+        .memory-photo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #ff6b9a 0%, #c8a2ff 100%);
+            border-radius: 10px;
+            margin: 1.5rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            box-shadow: 0 8px 20px rgba(255, 107, 154, 0.3);
+            opacity: 0;
+        }
+
+        .memory-photo.show {
+            animation: photoAppear 0.8s ease-in forwards;
+        }
+
+        @keyframes photoAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .memory-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(255, 107, 154, 0.5);
+        }
+
+        /* Dim overlay */
+        .dim-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0);
+            pointer-events: none;
+            z-index: 20;
+            transition: background 0.8s ease;
+        }
+
+        .dim-overlay.active {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Next button */
+        .next-button {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #c8a2ff 0%, #ff6b9a 100%);
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(200, 162, 255, 0.5);
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            opacity: 0;
+            z-index: 35;
+        }
+
+        .next-button.show {
+            animation: buttonShow 1s ease-in forwards;
+        }
+
+        @keyframes buttonShow {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .next-button:hover {
+            transform: translateX(-50%) scale(1.08);
+            box-shadow: 0 0 40px rgba(200, 162, 255, 0.8);
+        }
+
+        .next-button:active {
+            transform: translateX(-50%) scale(0.95);
+        }
+
+        /* Navigation buttons */
+        .nav-buttons {
+            position: fixed;
+            top: 2rem;
+            z-index: 50;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .back-button-nav {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 107, 154, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 107, 154, 0.3);
+            color: #fff5f8;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.875rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-button-nav {
+            left: 2rem;
+        }
+
+        .back-button-nav:hover {
+            background: rgba(255, 107, 154, 0.4);
+            transform: scale(1.1);
+        }
+
+        /* Fade out */
+        .fade-out {
+            animation: fadeOut 1s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 1024px) {
+            .letter-container {
+                max-width: 80vw;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .envelope-container {
+                width: 220px;
+                height: 140px;
+            }
+
+            .envelope-body {
+                width: 220px;
+                height: 140px;
+            }
+
+            .envelope-back-flap, .envelope-front-flap {
+                width: 220px;
+            }
+
+            .letter-container {
+                max-width: 90vw;
+                padding: 2rem 1.5rem;
+            }
+
+            .letter-text {
+                font-size: 1.1rem;
+            }
+
+            .intro-text {
+                font-size: 1.3rem;
+            }
+
+            .back-button-nav {
+                top: 1rem;
+                left: 1rem;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .envelope-container {
+                transform: scale(0.85);
+            }
+            .letter-text {
+                font-size: 1rem;
+            }
+            .letter-signature {
+                font-size: 1.5rem;
+            }
+            .letter-container {
+                padding: 1.5rem 1rem;
+            }
+        }
+    </style>
+    <link href="music-system.css" rel="stylesheet">
+</head>
+<body>
+    <div class="page-container">
+        <!-- Background -->
+        <div class="background"></div>
+        <div class="glow-bg"></div>
+
+        <!-- Floating Elements -->
+        <div class="floating-elements" id="floatingContainer"></div>
+
+        <!-- Navigation -->
+        <button class="back-button-nav" onclick="window.location.href='cake-page.html'">← Back</button>
+
+        <!-- Dim Overlay -->
+        <div class="dim-overlay" id="dimOverlay"></div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Intro Text -->
+            <div class="text-section">
+                <div class="intro-text" id="introLine1"></div>
+                <div class="intro-text" id="introLine2"></div>
+            </div>
+
+            <!-- Envelope -->
+            <div class="envelope-container">
+                <div class="envelope-glow"></div>
+                <div class="envelope">
+                    <div class="envelope-body"></div>
+                    <div class="envelope-back-flap"></div>
+                    <div class="envelope-front-flap" id="envelopeFront"></div>
+                </div>
+                <div class="envelope-heart">❤️</div>
+            </div>
+
+            <!-- Open Button -->
+            <button class="open-button" id="openButton">Open 💖</button>
+        </div>
+
+        <!-- Letter -->
+        <div class="letter-container" id="letterContainer">
+            <div class="letter-content" id="letterContent"></div>
+        </div>
+
+        <!-- Next Button -->
+        <button class="next-button" id="nextButton">See Our Memories 📸</button>
+    </div>
+
+    <script>
+        let isOpened = false;
+        let canOpen = true;
+
+        const letterText = `Hey my love… ❤️
+
+I don't even know where to start…
+Because whatever I write will still feel less.
+
+You came into my life so quietly…
+But became the loudest happiness in my world.
+
+The way you take care of me,
+the way you understand me even when I don't say anything…
+it means more than I can ever explain.
+
+You handle me when I'm rude,
+you stay when I'm difficult,
+and you love me in ways I never thought I deserved.
+
+With you, I feel safe… peaceful… and complete.
+
+You're not just someone I love,
+you're my comfort, my home, my everything.
+
+I don't need a perfect life…
+I just need you in it.
+
+Happy Birthday, my baby ❤️
+
+— Yours, always.`;
+
+        // Typewriter effect
+        function typeWriter(element, text, speed = 50) {
+            return new Promise((resolve) => {
+                let index = 0;
+                element.innerHTML = '';
+                function type() {
+                    if (index < text.length) {
+                        element.innerHTML += text.charAt(index);
+                        index++;
+                        setTimeout(type, speed);
+                    } else {
+                        resolve();
+                    }
+                }
+                type();
+            });
+        }
+
+        // Create floating elements
+        function createFloatingElements() {
+            const container = document.getElementById('floatingContainer');
+            for (let i = 0; i < 10; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = (Math.random() * 100) + '%';
+                heart.style.fontSize = (20 + Math.random() * 15) + 'px';
+                const duration = 8 + Math.random() * 4;
+                const delay = Math.random() * 5;
+                const tx = (Math.random() - 0.5) * 100;
+                heart.style.animation = `float ${duration}s linear ${delay}s infinite`;
+                heart.style.setProperty('--tx', tx + 'px');
+                container.appendChild(heart);
+            }
+
+            for (let i = 0; i < 6; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.innerHTML = '✨';
+                sparkle.style.left = (Math.random() * 100) + '%';
+                const duration = 12 + Math.random() * 4;
+                const delay = i * 0.8;
+                const tx = (Math.random() - 0.5) * 100;
+                sparkle.style.animation = `sparkleFloat ${duration}s linear ${delay}s infinite`;
+                sparkle.style.setProperty('--tx', tx + 'px');
+                container.appendChild(sparkle);
+            }
+        }
+
+        // Initialize intro text
+        async function startIntroText() {
+            await typeWriter(document.getElementById('introLine1'), 'I wrote something for you… 💌', 50);
+            await new Promise(r => setTimeout(r, 1000));
+            await typeWriter(document.getElementById('introLine2'), 'Open it when you\'re ready.', 50);
+        }
+
+
+
+        // Open envelope
+        const openButton = document.getElementById('openButton');
+        const envelopeFront = document.getElementById('envelopeFront');
+        const letterContainer = document.getElementById('letterContainer');
+        const dimOverlay = document.getElementById('dimOverlay');
+
+        openButton.addEventListener('click', () => {
+            if (!canOpen) return;
+
+            canOpen = false;
+            isOpened = true;
+            openButton.disabled = true;
+
+            // Play paper sound
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const noise = audioContext.createBufferSource();
+            const buffer = audioContext.createBuffer(1, audioContext.sampleRate * 0.2, audioContext.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < buffer.length; i++) {
+                data[i] = Math.random() * 0.3;
+            }
+            noise.buffer = buffer;
+            const gainNode = audioContext.createGain();
+            noise.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+            noise.start(audioContext.currentTime);
+
+            // Open envelope flap
+            envelopeFront.classList.add('open');
+
+            // Show letter with delay
+            setTimeout(() => {
+                letterContainer.classList.add('show');
+                dimOverlay.classList.add('active');
+                displayLetter();
+            }, 600);
+        });
+
+        // Display letter with typewriter effect
+        function displayLetter() {
+            const lines = letterText.split('\n').filter(line => line.trim());
+            let delay = 100; // Start immediately after 1 sec from showing letter
+
+            lines.forEach((line, index) => {
+                setTimeout(() => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'letter-line';
+                    const content = document.getElementById('letterContent');
+                    content.appendChild(lineDiv);
+
+                    typeWriter(lineDiv, line, 25).then(() => {
+                        lineDiv.classList.add('show');
+                    });
+
+                }, delay);
+
+                delay += line.length * 25 + 300; // Faster transitions between lines
+            });
+
+            // Show next button after all lines
+            const totalDelay = lines.reduce((sum, line) => sum + line.length * 25 + 300, 100) + 1000;
+            setTimeout(() => {
+                document.getElementById('nextButton').classList.add('show');
+            }, totalDelay);
+        }
+
+        // Next button
+        const nextButton = document.getElementById('nextButton');
+        nextButton.addEventListener('click', () => {
+            document.querySelector('.page-container').classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = 'memories-page.html';
+            }, 1000);
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createFloatingElements();
+            startIntroText();
+        });
+    </script>
+    <script src="music-system.js"></script>
+</body>
+</html>

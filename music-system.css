@@ -1,0 +1,328 @@
+/* ==================================================
+   GLOBAL MUSIC SYSTEM STYLES
+================================================== */
+
+/* --- Floating Music Player --- */
+#global-music-player {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(20, 10, 30, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 107, 154, 0.3);
+    border-radius: 40px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 9999;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 107, 154, 0.2);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
+
+#global-music-player:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 107, 154, 0.5);
+    border-color: rgba(255, 107, 154, 0.6);
+}
+
+/* --- Play/Pause Button --- */
+.gmp-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b9a, #c8a2ff);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 107, 154, 0.4);
+    transition: all 0.3s ease;
+    color: white;
+    flex-shrink: 0;
+}
+
+.gmp-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(255, 107, 154, 0.6);
+}
+
+/* --- Song Info --- */
+.gmp-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 100px;
+}
+
+.gmp-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.2;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.gmp-subtitle {
+    font-size: 0.7rem;
+    opacity: 0.8;
+    margin: 0;
+}
+
+/* --- Equalizer / Visualizer --- */
+.gmp-visualizer {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.gmp-bar {
+    width: 3px;
+    background: var(--accent-pink, #ff6b9a);
+    border-radius: 2px;
+    animation: gmp-dance 1s infinite alternate ease-in-out;
+    animation-play-state: paused;
+}
+
+.gmp-bar.playing {
+    animation-play-state: running;
+}
+
+@keyframes gmp-dance {
+    0% { height: 4px; }
+    100% { height: 20px; }
+}
+
+/* --- Spinning Disc Effect --- */
+.gmp-disc {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: conic-gradient(#111, #333, #111, #333, #111);
+    border: 2px solid #ff6b9a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: gmp-spin 4s linear infinite;
+    animation-play-state: paused;
+    flex-shrink: 0;
+}
+
+.gmp-disc::after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: #ff6b9a;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(255,255,255,0.5);
+}
+
+.gmp-disc.playing {
+    animation-play-state: running;
+}
+
+@keyframes gmp-spin {
+    100% { transform: rotate(360deg); }
+}
+
+/* --- Autoplay Popup --- */
+#gmp-autoplay-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    cursor: pointer;
+}
+
+#gmp-autoplay-popup.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.gmp-popup-content {
+    background: rgba(30, 15, 40, 0.8);
+    border: 1px solid rgba(255, 107, 154, 0.4);
+    padding: 20px 40px;
+    border-radius: 30px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(255, 107, 154, 0.3);
+    animation: gmp-pulse 2s infinite alternate;
+}
+
+.gmp-popup-text {
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-shadow: 0 0 10px rgba(255, 107, 154, 0.8);
+}
+
+@keyframes gmp-pulse {
+    0% { transform: scale(1); box-shadow: 0 0 40px rgba(255, 107, 154, 0.3); }
+    100% { transform: scale(1.05); box-shadow: 0 0 60px rgba(255, 107, 154, 0.6); }
+}
+
+@media (max-width: 600px) {
+    #global-music-player {
+        bottom: 15px;
+        right: 15px;
+        left: 15px;
+        justify-content: space-between;
+    }
+    .gmp-disc {
+        display: none;
+    }
+}
+
+/* --- Particles --- */
+.gmp-particle {
+    position: absolute;
+    bottom: 50%;
+    background: rgba(255, 107, 154, 0.8);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: gmp-float-up 3s ease-out forwards;
+    z-index: -1;
+}
+
+@keyframes gmp-float-up {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-50px) scale(0); opacity: 0; }
+}
+
+/* --- Surprise Page Music Card --- */
+.surprise-music-card {
+    background: rgba(20, 10, 30, 0.5);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 107, 154, 0.4);
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin: 40px auto;
+    max-width: 400px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 107, 154, 0.2);
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.surprise-music-card::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,107,154,0.1) 0%, transparent 60%);
+    animation: gmp-rotate-bg 10s linear infinite;
+    z-index: -1;
+}
+
+@keyframes gmp-rotate-bg {
+    100% { transform: rotate(360deg); }
+}
+
+.smc-disc {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(#111, #333, #111, #333, #111);
+    border: 3px solid #ff6b9a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    animation: gmp-spin 4s linear infinite;
+    animation-play-state: paused;
+}
+
+.smc-disc::after {
+    content: '';
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, #ff6b9a, #c8a2ff);
+    border-radius: 50%;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+}
+
+.smc-disc.playing {
+    animation-play-state: running;
+}
+
+.smc-title {
+    font-size: 1.8rem;
+    font-family: 'Great Vibes', cursive;
+    color: #ff6b9a;
+    text-shadow: 0 0 10px rgba(255, 107, 154, 0.6);
+    margin: 0;
+}
+
+.smc-subtitle {
+    font-size: 0.9rem;
+    color: #c8a2ff;
+    margin: 0;
+}
+
+.smc-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    justify-content: center;
+}
+
+.smc-play-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b9a, #c8a2ff);
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 107, 154, 0.4);
+    transition: transform 0.3s ease;
+}
+
+.smc-play-btn:hover {
+    transform: scale(1.1);
+}
+
+.smc-waveform {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 30px;
+}
+
+.smc-wave {
+    width: 4px;
+    background: #ff6b9a;
+    border-radius: 2px;
+    animation: gmp-dance 1s infinite alternate ease-in-out;
+    animation-play-state: paused;
+}
+
+.smc-waveform.playing .smc-wave {
+    animation-play-state: running;
+}
