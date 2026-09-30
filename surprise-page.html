@@ -484,6 +484,7 @@
             <h2 class="section-title">Our Beautiful Memories ✨</h2>
             <div class="gallery-grid">
                 
+                <div class="polaroid"><div class="polaroid-img-wrapper"><img src="images/image1.png" alt="Memory 1" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjNlbSIgZmlsbD0iI2FhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1hZ2UgMTwvdGV4dD48L3N2Zz4='"></div></div>
                 <div class="polaroid"><div class="polaroid-img-wrapper"><img src="images/image2.png" alt="Memory 2" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjNlbSIgZmlsbD0iI2FhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1hZ2UgMjwvdGV4dD48L3N2Zz4='"></div></div>
                 <div class="polaroid"><div class="polaroid-img-wrapper"><img src="images/image3.png" alt="Memory 3" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjNlbSIgZmlsbD0iI2FhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1hZ2UgMzwvdGV4dD48L3N2Zz4='"></div></div>
                 <div class="polaroid"><div class="polaroid-img-wrapper"><img src="images/image4.png" alt="Memory 4" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiM0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjNlbSIgZmlsbD0iI2FhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1hZ2UgNDwvdGV4dD48L3N2Zz4='"></div></div>
@@ -561,7 +562,7 @@
             if (typeIdx < text.length) {
                 typeEl.innerHTML = text.substring(0, typeIdx + 1);
                 typeIdx++;
-                setTimeout(typeWriter, 50);
+                setTimeout(typeWriter, 80);
             } else {
                 typeEl.classList.remove('typewriter');
             }

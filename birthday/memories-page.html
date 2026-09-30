@@ -434,13 +434,6 @@
         }
 
         /* Responsive */
-        @media (max-width: 1024px) {
-            .memory-item.left { width: 48%; }
-            .memory-item.right { width: 48%; }
-            .header h1 { font-size: 3rem; }
-            .memory-caption { font-size: 1.5rem; }
-        }
-
         @media (max-width: 768px) {
             .timeline-line {
                 left: 20px;
@@ -462,13 +455,6 @@
             .progress-dot {
                 left: 20px;
             }
-            
-            .header h1 { font-size: 2.5rem; }
-            .header p { font-size: 1rem; }
-            .memory-caption { font-size: 1.3rem; }
-            .midway-section { padding: 2rem; }
-            .midway-section h2 { font-size: 1.5rem; }
-            .next-button { padding: 0.8rem 2rem; font-size: 1rem; margin: 3rem auto; }
         }
     </style>
     <link href="music-system.css" rel="stylesheet">
@@ -539,11 +525,11 @@
                 caption: 'Growing old together is the plan 🥂'
             },
             {
-                image: 'images/6.jpeg',
+                image: 'images/6.png',
                 caption: 'Every day is brighter with you ☀️'
             },
             {
-                image: 'images/7.jpeg',
+                image: 'images/7.png',
                 caption: 'My favorite adventure 🌍'
             },
             {
@@ -553,7 +539,7 @@
         ];
 
         // Typewriter effect
-        function typeWriter(element, text, speed = 80) {
+        function typeWriter(element, text, speed = 50) {
             return new Promise((resolve) => {
                 let index = 0;
                 element.innerHTML = '';
@@ -602,9 +588,9 @@
 
         // Initialize header
         async function initHeader() {
-            await typeWriter(document.getElementById('headerTitle'), 'Our Story… 💫', 80);
-            await new Promise(r => setTimeout(r, 800));
-            await typeWriter(document.getElementById('headerSubtitle'), 'Not just moments… but feelings we lived.', 60);
+            await typeWriter(document.getElementById('headerTitle'), 'Our Story… 💫', 50);
+            await new Promise(r => setTimeout(r, 500));
+            await typeWriter(document.getElementById('headerSubtitle'), 'Not just moments… but feelings we lived.', 40);
         }
 
         // Create memory cards
@@ -670,7 +656,7 @@
             const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
             const progressDot = document.getElementById('progressDot');
             const timelineHeight = document.querySelector('.timeline-container').offsetHeight;
-            progressDot.style.transform = `translateX(-50%) translateY(${scrollPercent / 100 * timelineHeight}px)`;
+            progressDot.style.top = (scrollPercent / 100 * timelineHeight) + 'px';
         });
 
         // Initialize

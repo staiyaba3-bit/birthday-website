@@ -81,6 +81,7 @@
         }
 
         .sparkle {
+            will-change: transform, opacity;
             position: absolute;
             background: white;
             border-radius: 50%;
@@ -384,6 +385,7 @@
 
         /* --- Particles --- */
         .particle {
+            will-change: transform, opacity;
             position: fixed;
             pointer-events: none;
             z-index: 99;
@@ -573,7 +575,7 @@
         }
 
         // --- Typewriter Effect ---
-        function typeWriter(element, text, speed = 60) {
+        function typeWriter(element, text, speed = 80) {
             let i = 0;
             element.textContent = '';
             function type() {
