@@ -557,16 +557,21 @@
             return new Promise((resolve) => {
                 let index = 0;
                 element.innerHTML = '';
-                function type() {
-                    if (index < text.length) {
+                let lastTime = 0;
+                function type(time) {
+                    if (!lastTime) lastTime = time;
+                    if (time - lastTime >= speed) {
                         element.innerHTML += text.charAt(index);
                         index++;
-                        setTimeout(type, speed);
+                        lastTime = time;
+                    }
+                    if (index < text.length) {
+                        requestAnimationFrame(type);
                     } else {
                         resolve();
                     }
                 }
-                type();
+                requestAnimationFrame(type);
             });
         }
 

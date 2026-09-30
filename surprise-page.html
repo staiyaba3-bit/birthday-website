@@ -558,11 +558,16 @@
         const text = "No matter where life takes us... you'll always be my favorite place.";
         const typeEl = document.getElementById('typewriterText');
         let typeIdx = 0;
-        function typeWriter() {
-            if (typeIdx < text.length) {
+        let lastTime = 0;
+        function typeWriter(time) {
+            if (!lastTime) lastTime = time;
+            if (time - lastTime >= 80) {
                 typeEl.innerHTML = text.substring(0, typeIdx + 1);
                 typeIdx++;
-                setTimeout(typeWriter, 80);
+                lastTime = time;
+            }
+            if (typeIdx < text.length) {
+                requestAnimationFrame(typeWriter);
             } else {
                 typeEl.classList.remove('typewriter');
             }

@@ -578,14 +578,19 @@
         function typeWriter(element, text, speed = 80) {
             let i = 0;
             element.textContent = '';
-            function type() {
-                if (i < text.length) {
+            let lastTime = 0;
+            function type(time) {
+                if (!lastTime) lastTime = time;
+                if (time - lastTime >= speed) {
                     element.textContent += text.charAt(i);
                     i++;
-                    setTimeout(type, speed);
+                    lastTime = time;
+                }
+                if (i < text.length) {
+                    requestAnimationFrame(type);
                 }
             }
-            type();
+            requestAnimationFrame(type);
         }
 
         // --- Quiz Logic ---
